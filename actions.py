@@ -19,3 +19,11 @@ import bpy
 for act in bpy.data.actions:
     if act.name == 'test_CH01_RUN':
         act.user_clear()
+
+# del all action except NAME IS...
+import bpy
+for act in bpy.data.actions:
+    if act.name == 'UNIT_01_BASE':
+        pass
+    else:
+        act.user_clear()
