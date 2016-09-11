@@ -27,3 +27,13 @@ for act in bpy.data.actions:
         pass
     else:
         act.user_clear()
+        
+# del all action except NAME CONTAIN IS...
+import bpy
+import string
+keep_wd = 'JUMP'
+for act in bpy.data.actions:
+    if keep_wd in act.name:
+        pass
+    else:
+        print(act.name)
