@@ -31,7 +31,7 @@ for act in bpy.data.actions:
 # del all action except NAME CONTAIN IS...
 import bpy
 import string
-keep_wd = 'JUMP'
+keep_wd = 'WORD_IN_ACTION_NAME_FOR_UNDEL'
 for act in bpy.data.actions:
     if keep_wd in act.name:
         pass
