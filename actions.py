@@ -36,4 +36,4 @@ for act in bpy.data.actions:
     if keep_wd in act.name:
         pass
     else:
-        print(act.name)
+        act.user_clear()
