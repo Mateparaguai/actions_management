@@ -37,3 +37,8 @@ for act in bpy.data.actions:
         pass
     else:
         act.user_clear()
+        
+# in consol print all actions
+import bpy
+for a in bpy.data.actions: 
+    print(a.name)
