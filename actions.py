@@ -42,3 +42,10 @@ for act in bpy.data.actions:
 import bpy
 for a in bpy.data.actions: 
     print(a.name)
+
+# rename all animation, add 
+import bpy
+add_string = '#ADD' 
+for a in bpy.data.actions:
+    b = add_string + '_' + a.name
+    a.name = b
