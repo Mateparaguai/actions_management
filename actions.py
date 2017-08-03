@@ -54,3 +54,12 @@ for a in bpy.data.actions:
 import bpy
 for act in bpy.data.actions:
         act.name = act.name.replace("replacing_text","replaced_text")
+
+# create single action for for all objects whith useing one action
+import bpy
+sel_objs = bpy.context.selected_objects
+for s in sel_objs:
+    s.animation_data.action = s.animation_data.action.copy()
+
+
+
