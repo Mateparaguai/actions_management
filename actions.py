@@ -61,5 +61,14 @@ sel_objs = bpy.context.selected_objects
 for s in sel_objs:
     s.animation_data.action = s.animation_data.action.copy()
 
-
+# offset all actions
+import bpy
+sel_objs = bpy.context.selected_objects
+n = 0
+for s in sel_objs:
+    action = s.animation_data.action
+    n += 1
+    for fcurve in action.fcurves :
+        for p in fcurve.keyframe_points :
+            p.co[0] += n
 
