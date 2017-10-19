@@ -72,3 +72,6 @@ for s in sel_objs:
         for p in fcurve.keyframe_points :
             p.co[0] += n
 
+            
+# Select action in 3D viewport
+...
