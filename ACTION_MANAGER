@@ -1,0 +1,28 @@
+
+
+import bpy
+
+class Bones_Setting(bpy.types.Panel): 
+    bl_label = "ACTION_MANAGER" 
+    bl_space_type = 'DOPESHEET_EDITOR'
+    bl_region_type = 'UI'
+
+    def draw(self, context): 
+        layout = self.layout
+        
+        layout.label("Delete all action")
+        layout.operator("del_all_act.button", icon = "ACTION") 
+
+
+class Unmute_all_constraints(bpy.types.Operator): 
+    bl_idname = "del_all_act.button" 
+    bl_label = "Del_all_actions" 
+   
+    def execute(self, context):
+
+        for a in bpy.data.actions: 
+            a.user_clear()
+        return{'FINISHED'}    
+
+
+bpy.utils.register_module(__name__)
