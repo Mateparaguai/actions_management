@@ -1,25 +1,9 @@
-# del all actions
-import bpy
-for a in bpy.data.actions: 
-    a.user_clear()
-
-# del all fake users actions
-for act in bpy.data.actions:
-    if act.use_fake_user == True:
-        a.user_clear()
-    
 # print to consol fakes and not fakes users
 import bpy
 for act in bpy.data.actions:
     if act.use_fake_user == True: print('action name is - ', act.name, 'fake_user ', act.users, ' - fake_user')
     elif act.use_fake_user == False: print('action name is - ', act.name, 'fake_user ', act.users, ' - NOT fake_user')
     
-# del action by name
-import bpy
-for act in bpy.data.actions:
-    if act.name == 'test_CH01_RUN':
-        act.user_clear()
-
 # del all action except NAME IS...
 import bpy
 for act in bpy.data.actions:
@@ -54,12 +38,6 @@ for a in bpy.data.actions:
 import bpy
 for act in bpy.data.actions:
         act.name = act.name.replace("replacing_text","replaced_text")
-
-# create single action for for all objects whith useing one action
-import bpy
-sel_objs = bpy.context.selected_objects
-for s in sel_objs:
-    s.animation_data.action = s.animation_data.action.copy()
 
 # offset all actions
 import bpy
