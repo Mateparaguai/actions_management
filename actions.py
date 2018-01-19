@@ -16,11 +16,6 @@ for a in bpy.data.actions:
     b = add_string + '_' + a.name
     a.name = b
 
-# replace text block in actions names
-import bpy
-for act in bpy.data.actions:
-        act.name = act.name.replace("replacing_text","replaced_text")
-
 # offset all actions
 import bpy
 sel_objs = bpy.context.selected_objects
