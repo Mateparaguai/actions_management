@@ -8,6 +8,7 @@ from bpy.types import(
         )
 
 from bpy.props import(
+        IntProperty,
         StringProperty,
         PointerProperty,
         )
@@ -23,6 +24,18 @@ class ActionManagerPanels(bpy.types.Panel):
         layout = self.layout
         scene = context.scene.your_properties 
         
+
+
+        layout.label("Offset all frames")
+        col = layout.column()
+        col.prop(scene, "offset_frames")        
+        row = layout.row(align=True)
+        row.alignment = 'EXPAND'
+        row.operator("offset_sel_act.d").number=4
+        row.operator("offset_all_act.d").number=5
+
+
+
         layout.label("Delete all fake_users")
         layout.operator("del_all_fake_users.d", icon = "PANEL_CLOSE") 
         layout.label("Uniq action for selected objects")
@@ -35,6 +48,7 @@ class ActionManagerPanels(bpy.types.Panel):
         layout.label("Delete actions by name")
         col = layout.column()
         col.prop(scene, "NameDelAct")
+
         row = layout.row(align=True)
         row.alignment = 'EXPAND'
         row.operator("del_by_name.d").number=1
@@ -181,6 +195,59 @@ class ReplaceTextBlock(Operator):
         return {'FINISHED'}
 
 
+# Class Offset frames----------------------------------------
+class OffsetSelActions(Operator):
+
+    bl_idname = "offset_sel_act.d"
+    bl_label = "Offset selected actions"
+    bl_description = "Offset selected actions"
+    
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
+
+    def execute(self, context):
+
+        # you need to get your stored properties
+        scene = context.scene.your_properties 
+        # you get some of your properties to use them
+        n = scene.offset_frames
+
+        sel_objs = bpy.context.selected_objects
+
+        for s in sel_objs:
+            action = s.animation_data.action
+#            n += 1
+            for fcurve in action.fcurves:
+                for p in fcurve.keyframe_points:
+                    p.co[0] += n
+        return {'FINISHED'}
+
+
+
+# Class Offset frames----------------------------------------
+class OffsetAllActions(Operator):
+
+    bl_idname = "offset_all_act.d"
+    bl_label = "Offset all actions"
+    bl_description = "Offset all actions"
+
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
+
+    def execute(self, context):
+
+        # you need to get your stored properties
+        scene = context.scene.your_properties 
+        # you get some of your properties to use them
+        n = scene.offset_frames
+
+        for s in bpy.data.actions:
+#            n += 1
+            for fcurve in s.fcurves :
+                for p in fcurve.keyframe_points :
+                    p.co[0] += n
+        return {'FINISHED'}
+
 # your properties here --------------------------------------------
 class addon_Properties(PropertyGroup):
 
@@ -202,6 +269,11 @@ class addon_Properties(PropertyGroup):
         default = "New text"
         )
 
+    offset_frames = IntProperty(
+        name = "Offset",
+        description = "_",
+        default = 1
+        )    
 
 # Registration all classes --------------------------------------------
 classes = (
@@ -213,6 +285,8 @@ classes = (
     DelExceptNameContain,
     DelIfNameContain,
     ReplaceTextBlock,
+    OffsetSelActions,
+    OffsetAllActions,
     addon_Properties
     )
 
