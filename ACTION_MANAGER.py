@@ -1,5 +1,3 @@
-
-
 import bpy
 
 from bpy.types import(
@@ -53,7 +51,7 @@ class DelAllFakeUsers(bpy.types.Operator):
     def execute(self, context):
         for act in bpy.data.actions:
             if act.use_fake_user == True:
-                a.user_clear()
+                act.user_clear()
         return{'FINISHED'}    
 
 # Class Del action by name----------------------------------------------
