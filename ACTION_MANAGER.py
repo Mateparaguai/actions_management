@@ -32,7 +32,6 @@ class ActionManagerPanels(bpy.types.Panel):
         
         layout.separator()
         
-        
         layout.label("Delete actions...")
         col = layout.column()
         col.prop(scene, "NameDelAct")
@@ -43,6 +42,14 @@ class ActionManagerPanels(bpy.types.Panel):
         col = layout.column()
         col.operator("del_if_name_contain.d")
 
+        layout.separator()
+        
+        layout.label("Rename some text block")
+        col = layout.column()
+        col.prop(scene, "replacing_text")
+        col = layout.column()
+        col.prop(scene, "replaced_text")
+        layout.operator("replace_text_block.d", icon = "FILE_TEXT")                 
         
 # Class Del all actions----------------------------------------------
 class DelAllAct(bpy.types.Operator): 
@@ -140,6 +147,26 @@ class DelIfNameContain(Operator):
         return {'FINISHED'}
 
 
+# Class Replace text block in action names----------------------------------------
+class ReplaceTextBlock(Operator):
+
+    bl_idname = "replace_text_block.d"
+    bl_label = "Replace text block"
+    bl_description = "Replace text block in action names"
+
+    def execute(self, context):
+
+        # you need to get your stored properties
+        scene = context.scene.your_properties 
+        # you get some of your properties to use them
+        old_text = scene.replacing_text
+        new_text = scene.replaced_text
+
+        for act in bpy.data.actions:
+            act.name = act.name.replace(old_text,new_text)
+        return {'FINISHED'}
+
+
 # your properties here --------------------------------------------
 class addon_Properties(PropertyGroup):
 
@@ -148,6 +175,20 @@ class addon_Properties(PropertyGroup):
         description="The name of action to be deleted ",
         default = "name"
         )
+
+    replacing_text = StringProperty(
+        name = "replacing_text",
+        description="Old text for replacing",
+        default = "Old text"
+        )
+
+    replaced_text = StringProperty(
+        name = "replaced_text",
+        description="New text for replacing",
+        default = "New text"
+        )
+
+
 # ----------------------------------------------------------------
 
 
@@ -160,6 +201,7 @@ classes = (
     DelByName,
     DelExceptNameContain,
     DelIfNameContain,
+    ReplaceTextBlock,
     addon_Properties
     )
 
