@@ -25,11 +25,14 @@ class ActionManagerPanels(bpy.types.Panel):
         
         layout.label("Delete all action")
         layout.operator("del_all_act.d", icon = "ACTION") 
-        layout.label("Uniq action for selected objects")
-        layout.operator("uniq_act.d", icon = "LAYER_ACTIVE") 
         layout.label("Delete all fake_users")
         layout.operator("del_all_fake_users.d", icon = "PANEL_CLOSE") 
-
+        layout.label("Uniq action for selected objects")
+        layout.operator("uniq_act.d", icon = "LAYER_ACTIVE") 
+        
+        layout.separator()
+        
+        
         layout.label("Delete actions...")
         col = layout.column()
         col.prop(scene, "NameDelAct")
@@ -40,6 +43,7 @@ class ActionManagerPanels(bpy.types.Panel):
         col = layout.column()
         col.operator("del_if_name_contain.d")
 
+        
 # Class Del all actions----------------------------------------------
 class DelAllAct(bpy.types.Operator): 
     bl_idname = "del_all_act.d" 
@@ -140,7 +144,7 @@ class DelIfNameContain(Operator):
 class addon_Properties(PropertyGroup):
 
     NameDelAct = StringProperty(
-        name = "Name",
+        name = "Text",
         description="The name of action to be deleted ",
         default = "name"
         )
