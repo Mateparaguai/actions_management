@@ -23,24 +23,29 @@ class ActionManagerPanels(bpy.types.Panel):
         layout = self.layout
         scene = context.scene.your_properties 
         
-        layout.label("Delete all action")
-        layout.operator("del_all_act.d", icon = "ACTION") 
         layout.label("Delete all fake_users")
         layout.operator("del_all_fake_users.d", icon = "PANEL_CLOSE") 
         layout.label("Uniq action for selected objects")
         layout.operator("uniq_act.d", icon = "LAYER_ACTIVE") 
         
         layout.separator()
-        
-        layout.label("Delete actions...")
+
+        layout.label("Delete all actions")
+        layout.operator("del_all_act.d", icon = "ACTION")         
+        layout.label("Delete actions by name")
         col = layout.column()
         col.prop(scene, "NameDelAct")
-        col = layout.column()
-        col.operator("del_by_name.d")
-        col = layout.column()
-        col.operator("del_except_name_contain.d")
-        col = layout.column()
-        col.operator("del_if_name_contain.d")
+        row = layout.row(align=True)
+        row.alignment = 'EXPAND'
+        row.operator("del_by_name.d").number=1
+        row.operator("del_if_name_contain.d").number=2
+        row.operator("del_except_name_contain.d").number=3
+#        col = layout.column()
+#        col.operator("del_by_name.d")
+#        col = layout.column()
+#        col.operator("del_except_name_contain.d")
+#        col = layout.column()
+#        col.operator("del_if_name_contain.d")
 
         layout.separator()
         
@@ -66,7 +71,7 @@ class DelAllAct(bpy.types.Operator):
 class UniqAct(bpy.types.Operator): 
     bl_idname = "uniq_act.d" 
     bl_label = "Uniq_action" 
-   
+
     def execute(self, context):
 
         sel_objs = bpy.context.selected_objects
@@ -89,8 +94,11 @@ class DelAllFakeUsers(bpy.types.Operator):
 class DelByName(Operator):
 
     bl_idname = "del_by_name.d"
-    bl_label = "Delete action by name..."
+    bl_label = "By name"
     bl_description = "Delete action by name"
+    
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
 
     def execute(self, context):
 
@@ -108,8 +116,11 @@ class DelByName(Operator):
 class DelExceptNameContain(Operator):
 
     bl_idname = "del_except_name_contain.d"
-    bl_label = "Delete actions_except_name_contain..."
+    bl_label = "Except contain"
     bl_description = "Delete actions exept name contain"
+
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
 
     def execute(self, context):
 
@@ -129,8 +140,11 @@ class DelExceptNameContain(Operator):
 class DelIfNameContain(Operator):
 
     bl_idname = "del_if_name_contain.d"
-    bl_label = "Delete actions_if_name_contain..."
+    bl_label = "If contain"
     bl_description = "Delete actions if name contain"
+
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
 
     def execute(self, context):
 
@@ -177,19 +191,16 @@ class addon_Properties(PropertyGroup):
         )
 
     replacing_text = StringProperty(
-        name = "replacing_text",
+        name = "Old",
         description="Old text for replacing",
         default = "Old text"
         )
 
     replaced_text = StringProperty(
-        name = "replaced_text",
+        name = "New",
         description="New text for replacing",
         default = "New text"
         )
-
-
-# ----------------------------------------------------------------
 
 
 # Registration all classes --------------------------------------------
