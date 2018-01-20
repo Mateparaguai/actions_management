@@ -68,7 +68,11 @@ class ActionManagerPanels(bpy.types.Panel):
         col.prop(scene, "replacing_text")
         col = layout.column()
         col.prop(scene, "replaced_text")
-        layout.operator("replace_text_block.d", icon = "FILE_TEXT")                 
+        row = layout.row(align=True)
+        row.alignment = 'EXPAND'
+        row.operator("replace_sel_obj_text_block.d").number=6
+        row.operator("replace_text_block.d").number=7
+
         
 # Class Del all actions----------------------------------------------
 class DelAllAct(bpy.types.Operator): 
@@ -175,26 +179,6 @@ class DelIfNameContain(Operator):
         return {'FINISHED'}
 
 
-# Class Replace text block in action names----------------------------------------
-class ReplaceTextBlock(Operator):
-
-    bl_idname = "replace_text_block.d"
-    bl_label = "Replace text block"
-    bl_description = "Replace text block in action names"
-
-    def execute(self, context):
-
-        # you need to get your stored properties
-        scene = context.scene.your_properties 
-        # you get some of your properties to use them
-        old_text = scene.replacing_text
-        new_text = scene.replaced_text
-
-        for act in bpy.data.actions:
-            act.name = act.name.replace(old_text,new_text)
-        return {'FINISHED'}
-
-
 # Class Offset frames----------------------------------------
 class OffsetSelActions(Operator):
 
@@ -248,6 +232,55 @@ class OffsetAllActions(Operator):
                     p.co[0] += n
         return {'FINISHED'}
 
+# Class Replace text block in action names----------------------------------------
+class ReplaceTextBlock(Operator):
+
+    bl_idname = "replace_text_block.d"
+    bl_label = "For all actions"
+    bl_description = "Replace text block in action names"
+
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
+
+    def execute(self, context):
+
+        # you need to get your stored properties
+        scene = context.scene.your_properties 
+        # you get some of your properties to use them
+        old_text = scene.replacing_text
+        new_text = scene.replaced_text
+
+        for act in bpy.data.actions:
+            act.name = act.name.replace(old_text,new_text)
+        return {'FINISHED'}
+
+# Class Replace text block in action names for selected----------------------------------------
+class ReplaceSelObjTextBlock(Operator):
+
+    bl_idname = "replace_sel_obj_text_block.d"
+    bl_label = "For selected objects"
+    bl_description = "Replace text block in action names for selected objects"
+
+    number = bpy.props.IntProperty()
+    row = bpy.props.IntProperty()
+
+    def execute(self, context):
+
+        # you need to get your stored properties
+        scene = context.scene.your_properties 
+        # you get some of your properties to use them
+        old_text = scene.replacing_text
+        new_text = scene.replaced_text
+
+        sel_objs = bpy.context.selected_objects
+
+        for s in sel_objs:
+            act = s.animation_data.action
+            act.name = act.name.replace(old_text,new_text)
+        return {'FINISHED'}
+
+
+
 # your properties here --------------------------------------------
 class addon_Properties(PropertyGroup):
 
@@ -285,6 +318,7 @@ classes = (
     DelExceptNameContain,
     DelIfNameContain,
     ReplaceTextBlock,
+    ReplaceSelObjTextBlock,
     OffsetSelActions,
     OffsetAllActions,
     addon_Properties
