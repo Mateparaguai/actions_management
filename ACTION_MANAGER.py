@@ -1,3 +1,35 @@
+bl_info = {
+    "name": "Actions_manager",
+    "description": "Addon is designed to make it easier to work with the action ",
+    "author": "Mateparaguai",
+    "version": (0, 0, 1),
+    "blender": (2, 79, 1),
+    "location": "DOPESHEET_EDITOR",
+    "warning": "This addon is still in development.",
+    "wiki_url": "http://cgnotes.ru",
+    "category": "Animation" }
+    
+'''
+Copyright (C) 2018 Mateparaguai
+peimate@yandex.ru
+
+Created by Mateparaguai
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
+
+
 import bpy
 import string
 
@@ -26,7 +58,7 @@ class ActionManagerPanels(bpy.types.Panel):
         
 
 
-        layout.label("Offset all frames")
+        layout.label("Offset actions keyframes")
         col = layout.column()
         col.prop(scene, "offset_frames")        
         row = layout.row(align=True)
@@ -34,17 +66,15 @@ class ActionManagerPanels(bpy.types.Panel):
         row.operator("offset_sel_act.d").number=4
         row.operator("offset_all_act.d").number=5
 
+        layout.separator()
 
-
-        layout.label("Delete all fake_users")
+        layout.label("Delete all fake users actions")
         layout.operator("del_all_fake_users.d", icon = "PANEL_CLOSE") 
         layout.label("Uniq action for selected objects")
         layout.operator("uniq_act.d", icon = "LAYER_ACTIVE") 
         
         layout.separator()
 
-        layout.label("Delete all actions")
-        layout.operator("del_all_act.d", icon = "ACTION")         
         layout.label("Delete actions by name")
         col = layout.column()
         col.prop(scene, "NameDelAct")
@@ -54,16 +84,11 @@ class ActionManagerPanels(bpy.types.Panel):
         row.operator("del_by_name.d").number=1
         row.operator("del_if_name_contain.d").number=2
         row.operator("del_except_name_contain.d").number=3
-#        col = layout.column()
-#        col.operator("del_by_name.d")
-#        col = layout.column()
-#        col.operator("del_except_name_contain.d")
-#        col = layout.column()
-#        col.operator("del_if_name_contain.d")
+        layout.operator("del_all_act.d", icon = "ACTION")         
 
         layout.separator()
         
-        layout.label("Rename some text block")
+        layout.label("Rename actions names")
         col = layout.column()
         col.prop(scene, "replacing_text")
         col = layout.column()
