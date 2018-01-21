@@ -310,19 +310,19 @@ class addon_Properties(PropertyGroup):
     NameDelAct = StringProperty(
         name = "Text",
         description="The name of action to be deleted ",
-        default = "name"
+        default = " "
         )
 
     replacing_text = StringProperty(
         name = "Old",
         description="Old text for replacing",
-        default = "old text"
+        default = " "
         )
 
     replaced_text = StringProperty(
         name = "New",
         description="New text for replacing",
-        default = "new text"
+        default = " "
         )
 
     offset_frames = IntProperty(
